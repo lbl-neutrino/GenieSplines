@@ -43,6 +43,9 @@ for targ in "${target_arr[@]}"; do
         tempdir=tmp/$outFileName.d
         mkdir -p "$tempdir"
         ( cd "$tempdir" && gmkspl -p "$flav" -t "$targ" -n "$nknots" -e "$e_max" -o "$outFileName" "$input_args" ) &
-    done
-    wait
+    done &
 done
+
+# this doesn't actually wait for GENIE to exit, just for the two "for flav"
+# loops (one per target), but these have already completed, since they spawned GENIE in the background
+wait
