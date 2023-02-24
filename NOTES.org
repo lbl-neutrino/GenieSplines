@@ -1,0 +1,2 @@
+* Runtime
+- Free nucleons seemed to take ~2 hours on Perlmutter login (but should check again after fixing output paths)

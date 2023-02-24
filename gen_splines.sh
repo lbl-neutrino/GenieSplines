@@ -41,6 +41,8 @@ for targ in "${target_arr[@]}"; do
     for flav in "${flavor_arr[@]}"; do
         outFileName=$outdir/${tune}_${flav}_${targ}_DUNEv1.1_spline.xml
         tempdir=tmp/$outFileName.d
+        # need to get the full path since we're cd'ing into tempdir
+        outFileName=$(realpath $outFileName)
         mkdir -p "$tempdir"
         ( cd "$tempdir" && gmkspl -p "$flav" -t "$targ" -n "$nknots" -e "$e_max" -o "$outFileName" "$input_args" ) &
     done &
