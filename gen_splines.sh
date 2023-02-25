@@ -7,7 +7,7 @@ nucleons_arr=( 1000000010 1000010010 )
 nuclei_arr=( 1000050110 1000060120 1000070140 1000080160 1000110230 1000120240 1000130270 1000140280 1000150310 1000160320 1000170350 1000180400 1000190390 1000200400 1000220480 1000240520 1000250550 1000260560 1000280590 1000300640 1000822070 )
 
 flavor_arr=( 14 -14 12 -12 16 -16 )
-tune=D22_22a
+tune=D22_22a_00_000
 
 ## Spline parameters
 nknots=250
@@ -26,7 +26,7 @@ if [[ "$mode" == "nucleons" ]]; then
     # merged_output="$"
 elif [[ "$mode" == "nuclei" ]]; then
     target_arr=( "${nuclei_arr[@]}" )
-    input_args="--input-cross-sections $outbase/${tune}_nucleons_DUNEv1.1_spline.merged.xml"
+    input_args=( --input-cross-sections "$outbase/${tune}_nucleons_DUNEv1.1_spline.merged.xml" )
 else
     echo "First arg should be nucleons or nuclei"
     exit 1
@@ -42,10 +42,10 @@ for targ in "${target_arr[@]}"; do
         outFileName=$outdir/${tune}_${flav}_${targ}_DUNEv1.1_spline.xml
         tempdir=tmp/$outFileName.d
         # need to get the full path since we're cd'ing into tempdir
-        outFileName=$(realpath $outFileName)
+        outFileName=$(realpath "$outFileName")
         mkdir -p "$tempdir"
-        ( cd "$tempdir" && gmkspl -p "$flav" -t "$targ" -n "$nknots" -e "$e_max" -o "$outFileName" "$input_args" ) &
-    done &
+        ( cd "$tempdir" && gmkspl --tune "$tune" -p "$flav" -t "$targ" -n "$nknots" -e "$e_max" -o "$outFileName" "${input_args[@]}" ) &
+    done
 done
 
 # this doesn't actually wait for GENIE to exit, just for the two "for flav"

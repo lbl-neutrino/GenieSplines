@@ -1,2 +1,25 @@
 * Runtime
 - Free nucleons seemed to take ~2 hours on Perlmutter login (but should check again after fixing output paths)
+- 10 knots, e_max=10 took about 30-60 minutes
+** More precisely:
+132 minutes to do all the free nucleon splines in parallel
+#+begin_example
+-rw-r--r-- 1 mkramer dune 943204 Feb 24 12:15 D22_22a_-14_1000010010_DUNEv1.1_spline.xml
+-rw-r--r-- 1 mkramer dune 943207 Feb 24 12:15 D22_22a_-16_1000010010_DUNEv1.1_spline.xml
+-rw-r--r-- 1 mkramer dune 960348 Feb 24 12:10 D22_22a_-12_1000010010_DUNEv1.1_spline.xml
+-rw-r--r-- 1 mkramer dune 771720 Feb 24 12:07 D22_22a_16_1000010010_DUNEv1.1_spline.xml
+-rw-r--r-- 1 mkramer dune 788844 Feb 24 12:05 D22_22a_14_1000010010_DUNEv1.1_spline.xml
+-rw-r--r-- 1 mkramer dune 771736 Feb 24 12:04 D22_22a_12_1000010010_DUNEv1.1_spline.xml
+-rw-r--r-- 1 mkramer dune 925935 Feb 24 10:53 D22_22a_16_1000000010_DUNEv1.1_spline.xml
+-rw-r--r-- 1 mkramer dune 943054 Feb 24 10:47 D22_22a_14_1000000010_DUNEv1.1_spline.xml
+-rw-r--r-- 1 mkramer dune 925946 Feb 24 10:44 D22_22a_12_1000000010_DUNEv1.1_spline.xml
+-rw-r--r-- 1 mkramer dune 874562 Feb 24 10:42 D22_22a_-16_1000000010_DUNEv1.1_spline.xml
+-rw-r--r-- 1 mkramer dune 874560 Feb 24 10:39 D22_22a_-14_1000000010_DUNEv1.1_spline.xml
+-rw-r--r-- 1 mkramer dune 891704 Feb 24 10:38 D22_22a_-12_1000000010_DUNEv1.1_spline.xml
+#+end_example
+So we started around 10:05 -> ranged from 0.5 to 2 hours
+Oh and we forgot the fucking tune
+With the right tune it still took about the same time
+
+* Misc notes
+- The temporary run directories don't seem to be necessary
