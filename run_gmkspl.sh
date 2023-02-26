@@ -30,6 +30,9 @@ mkdir -p "$outdir"
 
 outFileName=$outdir/${tune}_${flav}_${targ}_DUNEv1.1_spline.xml
 
+# It looks like running in a temp directory is unnecessary. But maybe it's a
+# good idea in case GENIE produces a coredump?
+
 tempdir=tmp/$(basename "$outFileName").d
 
 # need to get the full path since we're cd'ing into tempdir

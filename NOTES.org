@@ -18,7 +18,7 @@
 -rw-r--r-- 1 mkramer dune 891704 Feb 24 10:38 D22_22a_-12_1000000010_DUNEv1.1_spline.xml
 #+end_example
 So we started around 10:05 -> ranged from 0.5 to 2 hours
-Oh and we forgot the fucking tune
+Oh and we forgot the bleeping tune
 With the right tune it still took about the same time
 
 * Misc notes
