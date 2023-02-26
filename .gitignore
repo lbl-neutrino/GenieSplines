@@ -1,2 +1,6 @@
-/splines
+__pycache__
+/splines*
 /tmp
+/gspl.venv
+/zeroworker
+/input

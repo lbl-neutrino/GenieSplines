@@ -15,8 +15,9 @@ e_max=100
 
 outbase=splines
 
-## Max number of parallel processes
-# maxprocs=8
+## Max number of targets to run in parallel
+## Since there are six flavors, the actual # of processes is 6*maxParTargs
+maxParTargs=3
 
 mode=$1; shift
 
@@ -26,7 +27,7 @@ if [[ "$mode" == "nucleons" ]]; then
     # merged_output="$"
 elif [[ "$mode" == "nuclei" ]]; then
     target_arr=( "${nuclei_arr[@]}" )
-    input_args=( --input-cross-sections "$outbase/${tune}_nucleons_DUNEv1.1_spline.merged.xml" )
+    input_args=( --input-cross-sections "$(realpath "$outbase/${tune}_nucleons_DUNEv1.1_spline.xml")" )
 else
     echo "First arg should be nucleons or nuclei"
     exit 1
@@ -37,17 +38,19 @@ mkdir -p "$outdir"
 
 ## chunking an array: https://stackoverflow.com/questions/23747612/how-do-you-break-an-array-in-groups-of-n
 
-for targ in "${target_arr[@]}"; do
-    for flav in "${flavor_arr[@]}"; do
-        outFileName=$outdir/${tune}_${flav}_${targ}_DUNEv1.1_spline.xml
-        tempdir=tmp/$outFileName.d
-        # need to get the full path since we're cd'ing into tempdir
-        outFileName=$(realpath "$outFileName")
-        mkdir -p "$tempdir"
-        ( cd "$tempdir" && gmkspl --tune "$tune" -p "$flav" -t "$targ" -n "$nknots" -e "$e_max" -o "$outFileName" "${input_args[@]}" ) &
+for ((i=0; i < ${#target_arr[@]}; i+=maxParTargs)); do
+    these_targets=( "${target_arr[@]:i:maxParTargs}" )
+    for targ in "${these_targets[@]}"; do
+        for flav in "${flavor_arr[@]}"; do
+            outFileName=$outdir/${tune}_${flav}_${targ}_DUNEv1.1_spline.xml
+            tempdir=tmp/$outFileName.d
+            # need to get the full path since we're cd'ing into tempdir
+            outFileName=$(realpath "$outFileName")
+            mkdir -p "$tempdir"
+            ( cd "$tempdir" && \
+                gmkspl --tune "$tune" -p "$flav" -t "$targ" -n "$nknots" \
+                -e "$e_max" -o "$outFileName" "${input_args[@]}" ) &
+        done
     done
+    wait
 done
-
-# this doesn't actually wait for GENIE to exit, just for the two "for flav"
-# loops (one per target), but these have already completed, since they spawned GENIE in the background
-wait

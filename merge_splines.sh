@@ -6,7 +6,7 @@
 
 mode=$1; shift
 
-tune=D22_22a
+tune=D22_22a_00_000
 
 outbase=splines
 
