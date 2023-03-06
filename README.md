@@ -17,7 +17,7 @@ source setup.sh
 This is the environment you use for running `gspladd`.
 
 ``` bash
-shifter --image=mjkramer/sim2x2:genie_DUNEv1.1 /bin/bash --init-file /environment
+shifter --image=mjkramer/sim2x2:genie_edep.LFG_testing.20230228 /bin/bash --init-file /environment
 ```
 
 Note that the `run_gmkspl.sh` script is meant to be called from outside the
@@ -27,9 +27,9 @@ container.
 
 # Making splines
 
-These instructions assume you're working with the `DUNEv1.1` tag of GENIE and
-the `D22_22a_00_000 tune`. Feel free to change those values in `run_gmkspl.sh`
-and in the commands below.
+These instructions assume you're working with the `LFG_testing.20230228` tag of
+GENIE and the `D22_22a_02_11b` tune. Feel free to change those values in
+`run_gmkspl.sh` and in the commands below.
 
 ## First, free nucleons
 
@@ -55,7 +55,7 @@ session.
 From inside the container:
 
 ``` bash
-gspladd -d splines/nucleons -o splines/D22_22a_00_000_nucleons_DUNEv1.1_spline.xml
+gspladd -d splines/nucleons -o splines/D22_22a_02_11b.nucleons.LFG_testing.20230228.spline.xml
 ```
 
 This merged file is used as input when generating the splines for nuclei.
@@ -76,9 +76,9 @@ mkdir -p input/nuclei
 ### Generate splines for nuclei
 
 ``` bash
-seq 24 | parallel -n0 -u ./spline_worker.py \
+seq 48 | parallel -n0 -u ./spline_worker.py \
     -i input/nuclei/input.txt -o splines/nuclei \
-    --xsec splines/D22_22a_00_000_nucleons_DUNEv1.1_spline.xml
+    --xsec splines/D22_22a_02_11b.nucleons.LFG_testing.20230228.spline.xml
 ```
 
 This took a day or two for the 21 nuclei in the MINERvA+2x2 geometry. Note that
@@ -93,10 +93,10 @@ For faster turnaround, you can increase the nunber of workers beyond `24`
 From inside the container:
 
 ``` bash
-gspladd -d splines/nuclei -o splines/D22_22a_00_000_nuclei_DUNEv1.1_spline.xml
+gspladd -d splines/nuclei -o splines/D22_22a_02_11b_nuclei_LFG_testing.20230228_spline.xml
 
-gspladd -f splines/D22_22a_00_000_nucleons_DUNEv1.1_spline.xml,splines/D22_22a_00_000_nuclei_DUNEv1.1_spline.xml \
-    -o splines/D22_22a_00_000_all_DUNEv1.1_spline.xml
+gspladd -f splines/D22_22a_02_11b_nucleons_LFG_testing.20230228_spline.xml,splines/D22_22a_02_11b_nuclei_LFG_testing.20230228_spline.xml \
+    -o splines/D22_22a_02_11b_all_LFG_testing.20230228_spline.xml 
 ```
 
 It looks like the second step is redundant; the merged `all` and `nuclei` files

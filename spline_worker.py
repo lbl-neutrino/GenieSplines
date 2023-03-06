@@ -34,4 +34,9 @@ def main():
 
 
 if __name__ == '__main__':
+    # HACK to prevent mobbing of the lockfile
+    # this should go into zeroworker, ideally in a less stupid way
+    import random, time
+    time.sleep(10 * random.random())
+
     main()

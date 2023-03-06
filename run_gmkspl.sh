@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Reload in Shifter if necessary
-image=mjkramer/sim2x2:genie_DUNEv1.1
+image=mjkramer/sim2x2:genie_edep.LFG_testing.20230228
 if [[ "$SHIFTER_IMAGEREQUEST" != "$image" ]]; then
     shifter --image=$image --module=none -- "$0" "$@"
     exit
@@ -14,7 +14,7 @@ flav=$1; shift
 targ=$1; shift
 inputXsec=$1; shift
 
-tune=D22_22a_00_000
+tune=D22_22a_02_11b
 
 ## Spline parameters
 nknots=250
@@ -28,7 +28,7 @@ fi
 
 mkdir -p "$outdir"
 
-outFileName=$outdir/${tune}_${flav}_${targ}_DUNEv1.1_spline.xml
+outFileName=$outdir/${tune}_${flav}_${targ}.LFG_testing.20230228.spline.xml
 
 # It looks like running in a temp directory is unnecessary. But maybe it's a
 # good idea in case GENIE produces a coredump?
